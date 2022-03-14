@@ -1,42 +1,59 @@
-import React, { useState } from 'react'
-import UserCard from './components/card'
+import React, { useState, useEffect } from 'react'
+import Axios from 'axios'
+import { Table } from 'react-bootstrap'
+import TableRow from './components/table-row'
 
 function Main () {
     // state
-    const [users, setUsers] = useState([
-        { id : 1, name : 'alvian', gender: 'male', role : 'frontend-developer' },
-        { id : 2, name : 'ferdian', gender: 'male', role : 'backend-developer' },
-        { id : 3, name : 'alfi', gender: 'female', role : 'UI Engineer' },
-        { id : 4, name : 'hawkhing', gender: 'male', role : 'Data Scientist' },
-        { id : 5, name : 'elsa', gender: 'female', role : 'Princess' }
-    ])
+    const [users, setUsers] = useState([])
 
-    // procession
-    const generateUserCards = () => {
+    // life-cylcle method
+    useEffect(() => {
+       // req to server
+       Axios.get('http://localhost:2000/users')
+       .then((respond) => {
+           setUsers(respond.data)
+        })
+       .catch((error) => console.log(error))
+    }, [])
+
+
+    const generateTableRows = () => {
         return users.map((user, index) => {
             return (
-                <UserCard
-                    key={user.id} 
-                    name={user.name} 
-                    role={user.role} 
-                    gender={user.gender}
-                    onButtonClick={() => onButtonRemoveMe(index)}
+                <TableRow
+                    key={user.id}
+                    id={user.id}
+                    name={user.name}
+                    email={user.email}
+                    phone={user.phone}
+                    country={user.country}
+                    region={user.region}
+                    currency={user.currency}
                 />
             )
         })
     }
 
-    // event
-    const onButtonRemoveMe = (index) => {
-        setUsers((prevState) => {
-            let temp = [...prevState]
-            temp.splice(index, 1)
-            return temp
-        })
-    }
-
+    console.log('users', users)
     return (
-        <div>{ generateUserCards() }</div>    
+        <div>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Country</th>
+                        <th>Region</th>
+                        <th>Currency</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>{ generateTableRows() }</tbody>
+            </Table>
+        </div>    
     )
 }
 
