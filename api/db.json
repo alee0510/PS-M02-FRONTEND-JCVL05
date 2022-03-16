@@ -1,49 +1,11 @@
 {
-	"users" : [
-        {
-            "id" : 1,
-            "name": "Lesley Dickson",
-            "phone": "(877) 407-0767",
-            "email": "quis@hotmail.org",
-            "country": "Australia",
-            "currency": "$89.01",
-            "region": "Guanacaste"
-        },
-        {
-            "id" : 2,
-            "name": "Leslie Warren",
-            "phone": "1-954-745-2560",
-            "email": "aliquam@aol.couk",
-            "country": "Russian Federation",
-            "currency": "$22.08",
-            "region": "Chihuahua"
-        },
-        {
-            "id" : 3,
-            "name": "Peter Head",
-            "phone": "1-738-753-7658",
-            "email": "magnis.dis.parturient@icloud.com",
-            "country": "Vietnam",
-            "currency": "$71.92",
-            "region": "Jharkhand"
-        },
-        {
-            "id" : 4,
-            "name": "Cecilia Wyatt",
-            "phone": "1-245-645-0908",
-            "email": "bibendum.fermentum.metus@aol.net",
-            "country": "Brazil",
-            "currency": "$26.08",
-            "region": "Valle d'Aosta"
-        },
-        {
-            "id" : 5,
-            "name": "Zenia Hoover",
-            "phone": "(746) 708-5566",
-            "email": "risus@icloud.edu",
-            "country": "Austria",
-            "currency": "$83.66",
-            "region": "Northern Cape"
-        }
-    ]
+  "students": [
+    {
+      "id": 3,
+      "name": "Seigou",
+      "email": "Seigou@gmail.co.kr",
+      "program": "UI/UX Designer",
+      "country": "Thailand"
+    }
+  ]
 }
