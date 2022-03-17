@@ -6,21 +6,19 @@ import {
     Thead, 
     Tbody, 
     Tr, 
-    Th, 
-    Td, 
-    Spinner, 
-    Flex,
-    Menu,
-    MenuButton,
-    IconButton,
-    MenuList,
-    MenuItem
+    Th
 } from '@chakra-ui/react'
-import { ChevronDownIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
+
+// components
+import Loading from '../components/loading'
+import Confirmation from '../components/confirmation'
+import StudentRows, { StudentRowsEdited } from './sub-components/student-rows'
 
 function ShowTables () {
     const [students, setStudent] = useState([])
     const [loading, setLoading] = useState(false)
+    const [confirm, setConfirm] = useState(false)
+    const [id, setId] = useState(null)
 
     // side-effect
     useEffect(() => {
@@ -41,41 +39,43 @@ function ShowTables () {
     // generate rows
     const generateStudentRows = () => {
         return students.map((student, index) => {
-            return (
-                <Tr key={student.id}>
-                    <Td>{index + 1}</Td>
-                    <Td>{student.name}</Td>
-                    <Td>{student.email}</Td>
-                    <Td>{student.program}</Td>
-                    <Td>{student.country}</Td>
-                    <Td>
-                        <Menu>
-                            <MenuButton
-                                as={IconButton}
-                                aria-label='Options'
-                                icon={<ChevronDownIcon />}
-                                variant='outline'
-                            />
-                            <MenuList>
-                                <MenuItem icon={<EditIcon />}>
-                                    Edit
-                                </MenuItem>
-                                <MenuItem 
-                                    onClick={() => onButtonDelete(student.id)} 
-                                    icon={<DeleteIcon 
-                                />}>
-                                    Delete
-                                </MenuItem>
-                            </MenuList>
-                        </Menu>
-                    </Td>
-                </Tr>
-            )
+            if (student.id === id) {
+                return (
+                    <StudentRowsEdited
+                        key={student.id}
+                        student={student}
+                        onCancel={onButtonCancelEdit}
+                    />
+                )
+            } else {
+                return (
+                    <StudentRows
+                        key={student.id}
+                        student={student}
+                        index={index}
+                        onDelete={() => onButtonDelete(student.id)}
+                        onEdit={() => onButtonEdit(student.id) }
+                    />
+                )
+            }
         })
     }
 
     // event
     const onButtonDelete = (id) => {
+        setConfirm(true)
+        setId(id)
+    }
+
+    const onButtonCancelDelete = () => {
+        setConfirm(false)
+        setId(null)
+    }
+
+    const onButtonConfirmDelete = () => {
+        setConfirm(false)
+        setLoading(true)
+        
         Axios.delete(`http://localhost:2000/students/${id}`)
         .then((respond) => {
             console.log(respond.data)
@@ -83,41 +83,49 @@ function ShowTables () {
             Axios.get('http://localhost:2000/students')
             .then((respond2) => {
                 setStudent(respond2.data)
+                setLoading(false)
+                setId(null)
             })
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+            console.log(error)
+            setLoading(false)
+            setId(null)
+        })
+    }
+
+    const onButtonEdit = (id) => {
+        setId(id)
+    }
+
+    const onButtonCancelEdit = () => {
+        setId(null)
     }
 
     return (
         <Box w="100%" px="161px">
-            {
-                loading ?
-                <Flex w="100%" minH="500px" justifyContent="center" alignItems="center">
-                    <Spinner
-                        thickness='4px'
-                        speed='0.65s'
-                        emptyColor='gray.200'
-                        color='#319795'
-                        size='xl'
-                    />
-                </Flex>
-                :
-                <Table variant='simple'>
-                    <Thead>
-                        <Tr>
-                            <Th>No</Th>
-                            <Th>Name</Th>
-                            <Th>Email</Th>
-                            <Th>Program</Th>
-                            <Th>Country</Th>
-                            <Th>Actions</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        { generateStudentRows() }
-                    </Tbody>
-                </Table>
-            }
+            <Loading onLoading={loading}/>
+            <Confirmation
+                isOpen={confirm}
+                title="Delete Confirmation"
+                onButtonCancel={onButtonCancelDelete}
+                onButtonConfirm={onButtonConfirmDelete}
+            />
+            <Table variant='simple'>
+                <Thead>
+                    <Tr>
+                        <Th>No</Th>
+                        <Th>Name</Th>
+                        <Th>Email</Th>
+                        <Th>Program</Th>
+                        <Th>Country</Th>
+                        <Th>Actions</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    { generateStudentRows() }
+                </Tbody>
+            </Table>
         </Box>
     )
 }

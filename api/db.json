@@ -1,11 +1,18 @@
 {
   "students": [
     {
-      "id": 3,
-      "name": "Seigou",
-      "email": "Seigou@gmail.co.kr",
+      "id": 1,
+      "name": "Lia Kim",
+      "email": "lia.kim@gmail.co.kr",
       "program": "UI/UX Designer",
-      "country": "Thailand"
+      "country": "Korea"
+    },
+    {
+      "id": 4,
+      "name": "Steven Lee",
+      "email": "lee.steven@gmail.co.kr",
+      "program": "Data Science",
+      "country": "USA"
     }
   ]
 }
