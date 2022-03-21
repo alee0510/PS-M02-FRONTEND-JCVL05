@@ -20,6 +20,7 @@ function ShowTables () {
     const [confirm, setConfirm] = useState(false)
     const [editConfirm, setEditConfirm] = useState(false)
     const [id, setId] = useState(null)
+    const [editId, setEditId] = useState(null)
 
     // edited state
     const studentNameRef = useRef("")
@@ -46,7 +47,7 @@ function ShowTables () {
     // generate rows
     const generateStudentRows = () => {
         return students.map((student, index) => {
-            if (student.id === id) {
+            if (student.id === editId) {
                 return (
                     <StudentRowsEdited
                         key={student.id}
@@ -109,12 +110,12 @@ function ShowTables () {
     }
 
     const onButtonEdit = (id, program, country) => {
-        setId(id)
+        setEditId(id)
         setProgram(program)
         setCountry(country)
     }
 
-    const onButtonCancelEdit = () => setId(null)
+    const onButtonCancelEdit = () => setEditId(null)
     const onProgramMenuClick = (event) => setProgram(event.target.value)
     const onCountryMenuClick = (event) => setCountry(event.target.value)
     const onButtonSaveEdit = () => setEditConfirm(true)
@@ -122,7 +123,7 @@ function ShowTables () {
 
     const onButtonConfirmEdit = () => {
         const newEditedData = {
-            id : id,
+            id : editId,
             name : studentNameRef.current.value,
             email : studentEmailRef.current.value,
             program : program,
@@ -141,13 +142,13 @@ function ShowTables () {
             Axios.get('http://localhost:2000/students')
             .then((respond2) => {
                 setStudent(respond2.data)
-                setId(null)
+                setEditId(null)
                 setLoading(false)
             })
         })
         .catch((error) => {
             console.log(error)
-            setId(null)
+            setEditId(null)
             setLoading(false)
         })
     }

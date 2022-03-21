@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { 
     Flex, 
     Box, 
@@ -14,11 +15,29 @@ import {
 import { Search2Icon, ChevronDownIcon } from '@chakra-ui/icons'
 
 export default function Navigation () {
+    const location = useLocation()
+
     return (
         <Flex w="100%" py="20px" marginBottom="15px" px="161px" justifyContent="space-between">
             <Flex>
-                <Box py="8px" px="15px" cursor="pointer">Form Input</Box>
-                <Box py="8px" px="15px" cursor="pointer" borderBottom="2px" borderBottomColor="#2B6CB0">Table</Box>
+                <Box 
+                    py="8px" 
+                    px="15px" 
+                    cursor="pointer"
+                    borderBottom={ location.pathname === "/" ? "2px" : "0px" } 
+                    borderBottomColor="#2B6CB0"
+                >
+                    <Link to="/">From Input</Link>
+                </Box>
+                <Box 
+                    py="8px" 
+                    px="15px" 
+                    cursor="pointer" 
+                    borderBottom={ location.pathname === "/table" ? "2px" : "0px" } 
+                    borderBottomColor="#2B6CB0"
+                >
+                    <Link to="/table">Table</Link>
+                </Box>
             </Flex>
             <Flex>
                 <InputGroup>
@@ -33,10 +52,8 @@ export default function Navigation () {
                         Sort By
                     </MenuButton>
                     <MenuList>
-                        <MenuItem>Program A-Z</MenuItem>
-                        <MenuItem>Program Z-A</MenuItem>
-                        <MenuItem>Country A-Z</MenuItem>
-                        <MenuItem>Country Z-A</MenuItem>
+                        <MenuItem>Name A-Z</MenuItem>
+                        <MenuItem>Name Z-A</MenuItem>
                     </MenuList>
                 </Menu>
             </Flex>
