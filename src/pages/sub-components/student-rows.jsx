@@ -2,7 +2,12 @@ import React from 'react'
 import { Tr, Td, Menu, MenuButton, MenuList, MenuItem, IconButton, Input, Button } from '@chakra-ui/react'
 import { ChevronDownIcon, EditIcon, DeleteIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons'
 
-export default function StudentRows ({ student, index, onDelete, onEdit }) {
+export default function StudentRows ({ 
+    student, 
+    index, 
+    onDelete, 
+    onEdit 
+}) {
     return (
         <Tr>
             <Td>{index + 1}</Td>
@@ -38,44 +43,58 @@ export default function StudentRows ({ student, index, onDelete, onEdit }) {
     )
 }
 
-export function StudentRowsEdited ({ student, onCancel }) {
+export function StudentRowsEdited ({ 
+    student, 
+    programTitle, 
+    countryTitle, 
+    onCancel, 
+    nameRef, 
+    emailRef, 
+    onSave, 
+    onProgramMenuClick, 
+    onCountryMenuClick 
+}) {
     return (
         <Tr>
             <Td>#</Td>
             <Td>
-                <Input type="text" defaultValue={student.name}/>
+                <Input ref={nameRef} type="text" defaultValue={student.name}/>
             </Td>
             <Td>
-                <Input type="email" defaultValue={student.email}/>
+                <Input ref={emailRef} type="email" defaultValue={student.email}/>
             </Td>
             <Td>
                 <Menu>
                     <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                        Programs
+                        { programTitle ? programTitle : "Programs" }
                     </MenuButton>
                     <MenuList>
-                        <MenuItem>Fullstack Web Development</MenuItem>
-                        <MenuItem>UIUX Designer</MenuItem>
-                        <MenuItem>Digital Marketing</MenuItem>
-                        <MenuItem>Data Science</MenuItem>
+                        <MenuItem value="Fullstack Web Development" onClick={onProgramMenuClick}>Fullstack Web Development</MenuItem>
+                        <MenuItem value="UIUX Designer" onClick={onProgramMenuClick}>UIUX Designer</MenuItem>
+                        <MenuItem value="Digital Marketing" onClick={onProgramMenuClick}>Digital Marketing</MenuItem>
+                        <MenuItem value="Data Science" onClick={onProgramMenuClick}>Data Science</MenuItem>
                     </MenuList>
                 </Menu>
             </Td>
             <Td>
                 <Menu>
                     <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                        Countries
+                        { countryTitle ? countryTitle : "Countries" }
                     </MenuButton>
                     <MenuList>
-                        <MenuItem>Japan</MenuItem>
-                        <MenuItem>Korea</MenuItem>
-                        <MenuItem>USA</MenuItem>
-                        <MenuItem>Russia</MenuItem>
+                        <MenuItem value="Japan" onClick={onCountryMenuClick}>Japan</MenuItem>
+                        <MenuItem value="Korea" onClick={onCountryMenuClick}>Korea</MenuItem>
+                        <MenuItem value="USA" onClick={onCountryMenuClick}>USA</MenuItem>
+                        <MenuItem value="Russia" onClick={onCountryMenuClick}>Russia</MenuItem>
                     </MenuList>
                 </Menu>
             </Td>
             <Td>
-                <IconButton colorScheme="green" icon={<CheckIcon />} />
+                <IconButton 
+                    colorScheme="green" 
+                    icon={<CheckIcon />} 
+                    onClick={onSave}
+                />
                 <IconButton 
                     ml="5px" 
                     colorScheme="red" 

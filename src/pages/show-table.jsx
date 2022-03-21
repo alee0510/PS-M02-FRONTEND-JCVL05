@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Axios from 'axios'
 import {
     Box, 
@@ -18,7 +18,14 @@ function ShowTables () {
     const [students, setStudent] = useState([])
     const [loading, setLoading] = useState(false)
     const [confirm, setConfirm] = useState(false)
+    const [editConfirm, setEditConfirm] = useState(false)
     const [id, setId] = useState(null)
+
+    // edited state
+    const studentNameRef = useRef("")
+    const studentEmailRef = useRef("")
+    const [program, setProgram] = useState("")
+    const [country, setCountry] = useState("")
 
     // side-effect
     useEffect(() => {
@@ -44,7 +51,14 @@ function ShowTables () {
                     <StudentRowsEdited
                         key={student.id}
                         student={student}
+                        programTitle={program}
+                        countryTitle={country}
                         onCancel={onButtonCancelEdit}
+                        nameRef={studentNameRef}
+                        emailRef={studentEmailRef}
+                        onSave={onButtonSaveEdit}
+                        onProgramMenuClick={onProgramMenuClick}
+                        onCountryMenuClick={onCountryMenuClick}
                     />
                 )
             } else {
@@ -54,7 +68,7 @@ function ShowTables () {
                         student={student}
                         index={index}
                         onDelete={() => onButtonDelete(student.id)}
-                        onEdit={() => onButtonEdit(student.id) }
+                        onEdit={() => onButtonEdit(student.id, student.program, student.country)}
                     />
                 )
             }
@@ -94,12 +108,48 @@ function ShowTables () {
         })
     }
 
-    const onButtonEdit = (id) => {
+    const onButtonEdit = (id, program, country) => {
         setId(id)
+        setProgram(program)
+        setCountry(country)
     }
 
-    const onButtonCancelEdit = () => {
-        setId(null)
+    const onButtonCancelEdit = () => setId(null)
+    const onProgramMenuClick = (event) => setProgram(event.target.value)
+    const onCountryMenuClick = (event) => setCountry(event.target.value)
+    const onButtonSaveEdit = () => setEditConfirm(true)
+    const onButtonCancelConfirmEdit = () => setEditConfirm(false)
+
+    const onButtonConfirmEdit = () => {
+        const newEditedData = {
+            id : id,
+            name : studentNameRef.current.value,
+            email : studentEmailRef.current.value,
+            program : program,
+            country : country
+        }
+        
+        setEditConfirm(false)
+        setLoading(true)
+        setProgram("")
+        setCountry("")
+
+        Axios.put(`http://localhost:2000/students/${id}`, newEditedData)
+        .then((respond) => {
+            console.log(respond.data)
+
+            Axios.get('http://localhost:2000/students')
+            .then((respond2) => {
+                setStudent(respond2.data)
+                setId(null)
+                setLoading(false)
+            })
+        })
+        .catch((error) => {
+            console.log(error)
+            setId(null)
+            setLoading(false)
+        })
     }
 
     return (
@@ -110,6 +160,12 @@ function ShowTables () {
                 title="Delete Confirmation"
                 onButtonCancel={onButtonCancelDelete}
                 onButtonConfirm={onButtonConfirmDelete}
+            />
+            <Confirmation
+                isOpen={editConfirm}
+                title="Edit Confirmation"
+                onButtonCancel={onButtonCancelConfirmEdit}
+                onButtonConfirm={onButtonConfirmEdit}
             />
             <Table variant='simple'>
                 <Thead>
