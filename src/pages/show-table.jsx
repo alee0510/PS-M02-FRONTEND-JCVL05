@@ -13,6 +13,7 @@ import {
 import Loading from '../components/loading'
 import Confirmation from '../components/confirmation'
 import StudentRows, { StudentRowsEdited } from './sub-components/student-rows'
+const API_URL = process.env.REACT_APP_API_URL
 
 function ShowTables () {
     const [students, setStudent] = useState([])
@@ -33,7 +34,7 @@ function ShowTables () {
         setLoading(true)
 
         // fetch data from api/server
-        Axios.get('http://localhost:2000/students')
+        Axios.get(API_URL + '/students')
         .then((respond) => {
             setStudent(respond.data)
             setLoading(false)
@@ -91,11 +92,11 @@ function ShowTables () {
         setConfirm(false)
         setLoading(true)
         
-        Axios.delete(`http://localhost:2000/students/${id}`)
+        Axios.delete(API_URL + `/students/${id}`)
         .then((respond) => {
             console.log(respond.data)
 
-            Axios.get('http://localhost:2000/students')
+            Axios.get(API_URL + '/students')
             .then((respond2) => {
                 setStudent(respond2.data)
                 setLoading(false)
@@ -135,11 +136,11 @@ function ShowTables () {
         setProgram("")
         setCountry("")
 
-        Axios.put(`http://localhost:2000/students/${id}`, newEditedData)
+        Axios.put(API_URL + `/students/${id}`, newEditedData)
         .then((respond) => {
             console.log(respond.data)
 
-            Axios.get('http://localhost:2000/students')
+            Axios.get(API_URL + '/students')
             .then((respond2) => {
                 setStudent(respond2.data)
                 setEditId(null)
