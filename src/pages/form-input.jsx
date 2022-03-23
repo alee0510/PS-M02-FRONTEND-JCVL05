@@ -9,7 +9,7 @@ import {
     MenuButton, 
     MenuList, 
     MenuItem, 
-    Stack,
+    Flex,
     Spinner,
     useToast 
 } from '@chakra-ui/react'
@@ -75,17 +75,17 @@ function FormInput () {
 
 
     return (
-        <Box w="100%" py="20px" px="161px">
-            <Stack spacing="6" width="50%">
-                <Text>Name</Text>
-                <Input ref={name} type="text" placeholder="ex. firas kun" required={true}/>
+        <Box w="100%" px="161px">
+            <Flex flexDirection="column" w="30%">
+                <Text marginBottom="10px">Name</Text>
+                <Input ref={name} type="text" placeholder="ex. firas kun" marginBottom="10px"/>
                 
-                <Text>Email</Text>
-                <Input ref={email} type="email" placeholder="ex. firas.kun@gmail.com" required={true}/>
+                <Text marginBottom="10px">Email</Text>
+                <Input ref={email} type="email" placeholder="ex. firas.kun@gmail.com" marginBottom="10px"/>
                 
-                <Text>Programs</Text>
+                <Text marginBottom="10px">Programs</Text>
                 <Menu>
-                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                    <MenuButton marginBottom="10px" textAlign="left" as={Button} rightIcon={<ChevronDownIcon />}>
                         { program }
                     </MenuButton>
                     <MenuList>
@@ -96,9 +96,9 @@ function FormInput () {
                     </MenuList>
                 </Menu>
                 
-                <Text>Countries</Text>
+                <Text marginBottom="10px">Countries</Text>
                 <Menu>
-                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                    <MenuButton marginBottom="20px" textAlign="left" as={Button} rightIcon={<ChevronDownIcon />}>
                         { country }
                     </MenuButton>
                     <MenuList>
@@ -116,7 +116,7 @@ function FormInput () {
                 >
                     { loading ? <Spinner size='md' /> : "Submit"}
                 </Button>
-            </Stack>
+            </Flex>
         </Box>
     )
 }

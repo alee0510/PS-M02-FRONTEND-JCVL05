@@ -6,8 +6,12 @@ import {
     Thead, 
     Tbody, 
     Tr, 
-    Th
+    Th,
+    Flex,
+    IconButton,
+    Text
 } from '@chakra-ui/react'
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
 // components
 import Loading from '../components/loading'
@@ -22,6 +26,7 @@ function ShowTables () {
     const [editConfirm, setEditConfirm] = useState(false)
     const [id, setId] = useState(null)
     const [editId, setEditId] = useState(null)
+    const [page, setPage] = useState(1)
 
     // edited state
     const studentNameRef = useRef("")
@@ -34,7 +39,7 @@ function ShowTables () {
         setLoading(true)
 
         // fetch data from api/server
-        Axios.get(API_URL + '/students')
+        Axios.get(API_URL + `/students?_page=${page}&_limit=5`)
         .then((respond) => {
             setStudent(respond.data)
             setLoading(false)
@@ -43,7 +48,7 @@ function ShowTables () {
             console.log(error)
             setLoading(false)
         })
-    }, [])
+    }, [page])
 
     // generate rows
     const generateStudentRows = () => {
@@ -154,6 +159,13 @@ function ShowTables () {
         })
     }
 
+    const onButtonNext = () => setPage((prev) => prev + 1)
+    const onButtonPrev = () => {
+        if (page <= 1) return
+
+        setPage((prev) => prev - 1)
+    }
+
     return (
         <Box w="100%" px="161px">
             <Loading onLoading={loading}/>
@@ -169,7 +181,7 @@ function ShowTables () {
                 onButtonCancel={onButtonCancelConfirmEdit}
                 onButtonConfirm={onButtonConfirmEdit}
             />
-            <Table variant='simple'>
+            <Table variant='simple' minH="380px">
                 <Thead>
                     <Tr>
                         <Th>No</Th>
@@ -184,6 +196,18 @@ function ShowTables () {
                     { generateStudentRows() }
                 </Tbody>
             </Table>
+            <Flex alignItems="center" marginY="10px">
+                <IconButton
+                    icon={<ChevronLeftIcon />} 
+                    onClick={onButtonPrev}
+                    disabled={page <= 1}
+                />
+                <Text fontSize="16px" marginX="20px">page : {page}</Text>
+                <IconButton
+                    icon={<ChevronRightIcon />} 
+                    onClick={onButtonNext}
+                />
+            </Flex>
         </Box>
     )
 }
