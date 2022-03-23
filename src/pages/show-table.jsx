@@ -181,7 +181,7 @@ function ShowTables () {
                 onButtonCancel={onButtonCancelConfirmEdit}
                 onButtonConfirm={onButtonConfirmEdit}
             />
-            <Table variant='simple' minH="380px">
+            <Table variant='simple' minH="380px" backgroundColor="white">
                 <Thead>
                     <Tr>
                         <Th>No</Th>

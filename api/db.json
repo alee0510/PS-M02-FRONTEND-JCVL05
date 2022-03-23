@@ -63,5 +63,13 @@
       "country": "Korea",
       "id": 13
     }
+  ],
+  "users" : [
+    {
+      "id" : 1,
+      "username" : "admin",
+      "email" : "admin@gmail.com",
+      "password" : "admin123"
+    }
   ]
 }
