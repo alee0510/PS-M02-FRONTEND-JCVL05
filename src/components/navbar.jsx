@@ -9,6 +9,11 @@ function Navbar (props) {
         '/login' : 'Login'
     }
     const navigate = useNavigate()
+    const token = localStorage.getItem("token")
+
+    const onButtonLogout = () => {
+        localStorage.removeItem("token")
+    }
 
     return (
         <Flex 
@@ -24,9 +29,14 @@ function Navbar (props) {
             <Text fontSize="4xl" fontWeight="bold" color="#F9F9F9">
                 { title[props.pathname] } 
             </Text>
-            <Button onClick={() => navigate(props.pathname === '/login' ? '/' : '/login')}>
-                { props.pathname === '/login' ? 'Home' : 'Login' }
-            </Button>
+            {
+                token ?
+                <Button onClick={onButtonLogout}>Logout</Button>
+                :
+                <Button onClick={() => navigate(props.pathname === '/login' ? '/' : '/login')}>
+                    { props.pathname === '/login' ? 'Back to Home' : 'Login' }
+                </Button>
+            }
         </Flex>
     )
 }
