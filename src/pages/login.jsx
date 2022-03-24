@@ -1,10 +1,9 @@
 import React, { useRef, useState } from 'react'
 import Axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { Box, Input, Button, Text, Flex, Spinner, useToast } from '@chakra-ui/react'
 
 const API_URL = process.env.REACT_APP_API_URL
-
 function Login () {
     const username = useRef("")
     const password = useRef("")
@@ -29,6 +28,9 @@ function Login () {
                 isClosable: true,
             })
 
+            // set data to localstorage
+            localStorage.setItem("token", respond.data[0].id)
+
             // if success
             toast({
                 title: 'Login success',
@@ -45,6 +47,10 @@ function Login () {
             setLoading(false)
         })
     }
+
+    // protection
+    const token = localStorage.getItem("token")
+    if (token) return <Navigate to="/"/>
 
     return (
         <Box w="100%" h="100px" paddingTop="3%">

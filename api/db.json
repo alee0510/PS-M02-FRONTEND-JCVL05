@@ -62,14 +62,21 @@
       "program": "Fullstack Web Development",
       "country": "Korea",
       "id": 13
+    },
+    {
+      "name": "alee0510",
+      "email": "ali.muksin0510@gmail.com",
+      "program": "Fullstack Web Development",
+      "country": "Korea",
+      "id": 14
     }
   ],
-  "users" : [
+  "users": [
     {
-      "id" : 1,
-      "username" : "admin",
-      "email" : "admin@gmail.com",
-      "password" : "admin123"
+      "id": 1,
+      "username": "admin",
+      "email": "admin@gmail.com",
+      "password": "admin123"
     }
   ]
 }
