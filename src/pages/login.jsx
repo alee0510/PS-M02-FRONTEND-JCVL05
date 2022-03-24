@@ -41,7 +41,7 @@ function Login () {
                 title: 'Login success',
                 status: 'success',
                 duration: 3000,
-                isClosable: true,
+                isClosable: true
             })
 
             // redirect to home page
