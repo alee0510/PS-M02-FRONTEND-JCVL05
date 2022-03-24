@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import Axios from 'axios'
+import { useDispatch } from 'react-redux'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { Box, Input, Button, Text, Flex, Spinner, useToast } from '@chakra-ui/react'
 
@@ -11,6 +12,7 @@ function Login () {
 
     const toast = useToast()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const onButtonLogin = () => {
         setLoading(true)
@@ -30,6 +32,9 @@ function Login () {
 
             // set data to localstorage
             localStorage.setItem("token", respond.data[0].id)
+
+            // dispatch action -> to save user's data in global store
+            dispatch({ type : "LOGIN", payload : respond.data[0] })
 
             // if success
             toast({
